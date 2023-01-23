@@ -1,132 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-
+{% extends 'components/header.html' %}
+{% block title %}Menu{% endblock %}
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+  #ritem:hover{
+    background-color:grey;
+  }
+</style>
 </head>
 
-<body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">FootWalker</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
+      <a class="navbar-brand" href="#">FootWalker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-right:10vw;">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+            <ul class="dropdown-menu" style="width:20vw;margin-right:15vw;" aria-labelledby="navbarDropdown">
+              {% for x in cart %}
+              <li style="padding:10px;">
+                <div class="row">
+                  <div class="col"><img src="{{ url_for('static',filename=x[3]) }}" style="width:50px;height:auto;"
+                      alt="...">
+                  </div>
+                  <div class="col">{{x[2]}}</div>
+                  <div class="col">${{x[4]}}</div>
+                  <div class="col"><a href="{{url_for('delete',id=x[0])}}" id="ritem"><i class="fa-solid fa-x"></i></a></div>
+                </div>                               
+              </li>
+              
+              {% endfor %}
+              
+
+              <button class="w-100 btn btn-primary btn-lg" method="POST"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="/customer" style="color:white;text-decoration :none;"> Proceed To checkout</a></font></font></button>
             </ul>
-            <!-- <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form> -->
-        </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
-  <div class ="row">
-    <div class="card" style="width: 18rem;">  
+
+
+  
+  {% for i in data %}
+   
+     <div class="card" style="width: 20vw;display:inline-block;margin:2.26vw;-webkit-box-shadow:0px 0px 19px 1px rgba(99,119,219,0.41);
+     -moz-box-shadow: 0px 0px 19px 1px rgba(99,119,219,0.41);
+     box-shadow: 0px 0px 19px 1px rgba(99,119,219,0.41);border-radius:20px;">
         <div class="card-body">
-          <img src="{{ url_for('static',filename='images/jordanair1retro.jpeg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Air Jordan 1 Retro High OG Chicago</h5>
-          <p class="card-text">$4,218</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
+          <img src="{{ url_for('static',filename=i[3]) }}" class="card-img-top" alt="...">
+          <h5 class="card-title">{{i[2]}}</h5>
+          <p class="card-text">{{i[1]}}</p>
+          <p class="card-text">${{i[4]}}</p>
+            <button type="button" onclick="i[0]" class="btn btn-primary" data-bs-toggle="modal" id="shoeid"
+            data-bs-target="#{{i[0]}}">
+            Add to cart
+          </button>
         </div>
       </div>
-    <div class="card" style="width: 18rem;"> 
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/nikeairforce107.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Nike Air Force 1 '07
-            White
-          </h5>
-          <p class="card-text">$92</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-        </div>   
-    </div> 
-    <div class="card" style="width: 18rem;">  
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/adidasfoamrunner.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">YEEZY Foam Runner "Mist" sneakers</h5>
-          <p class="card-text">$466</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem;">  
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/jordantravis.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Jordan x Travis Scott Air Jordan 1 Low OG</h5>
-          <p class="card-text">$2,777</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="card" style="width: 18rem;">  
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/airjordan4.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Air Jordan 4 Retro “Red Thunder” sneakers</h5>
-          <p class="card-text">$865</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem;">  
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/offwhitechruch.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Off-White x Church's Burwood leather brogues</h5>
-          <p class="card-text">$4,000</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-       </div>
-    </div>
-    <div class="card" style="width: 18rem;">  
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/adidasnmd.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Adidas Originals NMD_R1 sneakers</h5>
-          <p class="card-text">$350</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem;">  
-        <div class="card-body">
-          <img src="{{ url_for('static',filename='images/airmag.jpg') }}" class="card-img-top" alt="...">
-          <h5 class="card-title">Nike Air Mag sneakers</h5>
-          <p class="card-text">$85,000</p>
-          <a href="#" class="btn btn-primary">Add to cart</a>
-        </div>
-    </div>
-    
-</div>
-    
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
 
-</html>
+
+    <!-- MODALS -->
+    <div class="modal fade" id="{{i[0]}}" tabindex="-1" aria-labelledby="i[1]" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{i[2]}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form method="post" action="/menu">
+          <div class="modal-body">
+            <p class="card-text">{{i[1]}}</p>
+            <h3>Available Sizes:</h3>
+            
+            <select name="shoe" class="shoeInfo" data-id="{{i[0]}}">
+
+              {% for j in size_data %}
+              {% if i[0]==j[0] %}
+              
+              <option value="{{j[0]}},{{j[1]}}">{{j[1]}}</span></option>
+              {% endif %}
+              {% endfor %}
+            </select>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary">Add To Cart</button>
+
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  
+
+    {% endfor %}
+{% endblock %}    

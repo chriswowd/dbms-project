@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <title>Bill PDF</title>
+    <style>
+        * {
+            padding: none;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <header style="background-color:#212529;margin-bottom:30px;color:white;padding-bottom:20px; ">
+        <div>
+            <h1 style="font-size:80px;font-family:'Helvetica Neue',;margin-left:20px;">FootWalker</h1>
+        </div>
+        <div style="margin-left:1000px;">
+            <div>FootWalker</div>
+            <div><a style="color:aquamarine;" href="mailto:healthcare@vcare.com">customercare@footwalker.com</a></div>
+            <div>9148799749</div>
+        </div>
+        </div>
+    </header>
+    <!-- <hr style="margin-top:20px;"> -->
+    <main>
+        <div>
+            <div>
+
+                {% for j in cust%}
+                <h2 style="display:block" class="orderno">Order No.: {{j[0]}}</h2>
+
+                <h2 style="display:block" class="name">Customer Name: {{j[1]}} {{j[2]}}</h2>
+
+                <h2 style="display:block" class="name">Phone Number: {{j[3]}}</h2>
+
+                <h2 style="display:block" class="name">Email: {{j[4]}}</h2>
+                {% endfor %}
+
+
+            </div>
+            <br>
+            <br>
+            <br>
+            <div id="invoice">
+                <center>
+                    <h1
+                        style="font-size:50px;color:aquamarine;font-family:'Helvetica Neue';--webkit-text-stroke:3px black">
+                        Invoice</h1>
+                </center>
+
+            </div>
+
+        </div>
+        <table
+            style="margin-top:50px;width:1200px;font-size:30px;border: 1px solid;margin-left:50px;border-color:black;">
+            <thead style="background-color:#212529;color:white;">
+                <tr>
+                    <th class="no">NO.</th>
+                    <th class="prod">PRODUCT</th>
+                    <th class="size">SIZE</th>
+                    <th class="price"> PRICE</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                {% for i in cart %}
+
+                <tr>
+                <tr style="justify-content:center"></tr>
+                <td class="no">{{cart.index(i)+1}}</td>
+                <td class="prod">{{i[2]}}</td>
+                <td class="size">{{i[5]}}</td>
+                <td class="price">${{i[4]}}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+            <tfoot style="background:aquamarine;color:black;border-top:2px solid black;border-collapse:collapse;">
+
+                <tr>
+
+                    <td colspan="2">
+                        <center>GRAND TOTAL</center>
+                    </td>
+                    <td colspan="2">
+                        <center>${{tcost}}</center>
+                    </td>
+
+                </tr>
+            </tfoot>
+        </table>
+        <h1 style="font-size:40px;margin-top:30px;">
+            <center>Thank you!</center>
+        </h1>
+        <div id="notices">
+            <div>NOTICE:</div>
+            <div class="notice"> Invoice was created on a computer and is valid without the signature and seal.</div>
+        </div>
+    </main>
+
+</body>
+
+</html>
