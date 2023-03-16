@@ -54,10 +54,8 @@ con.execute('''
     PHONE INTEGER NOT NULL,
     EMAIL VARCHAR(20),
     ADDRESS VARCHAR(50) NOT NULL,
-    BILL_TOTAL NUMBER(10,2)  );
-    
+    BILL_TOTAL NUMBER(10,2)  );    
 ''')
-
 con.commit
 con.close()
 @app.route('/')
@@ -72,6 +70,7 @@ def about():
 @app.route('/login')
 def login():
     return render_template('login.html')
+
 
 @app.route('/delete/<int:id>')
 def delete(id):
@@ -92,23 +91,31 @@ def delete(id):
 @app.route('/login/',methods=['POST'])
 def logged_in():
     con = sqlite3.connect("database.db")
+    uname = request.form["uname"]
+    pwd = request.form["pwd"]
     cur = con.cursor()
-    cur.execute("SELECT * FROM PRODUCT")
-    data=cur.fetchall()
-    cur.execute("SELECT * FROM SIZES")
-    size_data=cur.fetchall()
-    cur.execute("SELECT * FROM CART")
-    cart=cur.fetchall()
-    return render_template('menu.html',data=data,size_data=size_data,cart=cart)
+    cur.execute("SELECT U_NAME,PWD FROM LOGIN WHERE U_NAME='{un}' AND PWD='{pw}';".format(un=uname, pw=pwd))
+    acc = cur.fetchall()
+    if len(acc) == 1:
+        con = sqlite3.connect("database.db")
+        cur = con.cursor()
+        cur.execute("SELECT * FROM PRODUCT")
+        data=cur.fetchall()
+        cur.execute("SELECT * FROM SIZES")
+        size_data=cur.fetchall()
+        cur.execute("SELECT * FROM CART")
+        cart=cur.fetchall()
+        return render_template('menu.html',data=data,size_data=size_data,cart=cart)
+    else:
+        return render_template('error.html')
+
 
 @app.route('/menu',methods=['GET', 'POST'])
 def menu():
     con = sqlite3.connect("database.db")
     cur=con.cursor()
     shoe= request.form.get("shoe")
-    print(shoe,"--------------------------------------------------------")
     if shoe != None:
-        print("hi------------------")
         l=shoe.split(",")    
         prod_id=l[0]
         size=l[1]
